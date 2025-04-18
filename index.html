@@ -1,0 +1,86 @@
+<html style="width: 100%; height: 100%;">
+    <head>
+        <style>
+            .cat-sprite {
+                position: absolute;
+                bottom: 0px;
+                left: 0px;
+    width: 140px; /* Ширина одного кадра */
+    height: 64px; /* Высота одного кадра */
+    background-image: url('cat.png');
+    background-repeat: no-repeat;
+    
+}
+.cat-run{
+    animation: cat-walk 1s steps(12) infinite;
+}
+.cat-sitting{
+    animation: cat-sit 1s steps(1) infinite;
+}
+@keyframes cat-walk {
+    from {
+        background-position: 0 0; /* Начальная позиция спрайта */
+    }
+    to {
+        background-position: 0px -842px; /* Конечная позиция (6 кадров * 64px) */
+    }
+}
+@keyframes cat-sit {
+    from {
+        background-position: -141px -351px; /* Начальная позиция спрайта */
+    }
+    to {
+        background-position: -141px -351px; /* Конечная позиция (6 кадров * 64px) */
+    }
+}
+        </style>
+    </head>
+    <body style="width: 100%; height: 100%;">
+            <div class="cat-sprite cat-sitting" id="cat">
+
+            </div>
+            <script>
+                var x=0;
+                var isWalking = false;
+                var walkingDirection = 1;
+                var target = 0;
+                var catdiv = document.getElementById("cat");
+                setInterval(() => {
+                    if(x+140>=window.innerWidth)
+                    {
+                        walkingDirection = -2;
+                    }
+                    if(x<=0)
+                    {
+                        walkingDirection = 2;
+                    }
+                    if(Math.random()*100>99&& isWalking==false)
+                    {
+                        target = (window.innerWidth-140)*Math.random();
+                        isWalking = true;
+                    }
+                    if(Math.abs(x-target)<=2)
+                    {
+                        isWalking=false;
+                    }
+                    if(isWalking)
+                    {
+                        catdiv.classList.add('cat-run');
+                        catdiv.classList.remove('cat-sitting');
+                        x+=walkingDirection;
+                    }else{
+                        catdiv.classList.remove('cat-run');
+                        catdiv.classList.add('cat-sitting');
+                    }
+                    if(walkingDirection>0)
+                    {
+                        catdiv.style.transform = 'scaleX(-1)';
+                    }else{
+                        catdiv.style.transform = 'scaleX(1)';
+                    }
+                    
+                    catdiv.style.left = x+"px";
+                }, 16);
+            </script>
+    </body>
+</html>
