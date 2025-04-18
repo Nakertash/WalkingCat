@@ -53,6 +53,7 @@
                 var x=0;
                 var isWalking = false;
                 var walkingDirection = 1;
+                var speed = 2;
                 var target = 0;
                 var catdiv = document.getElementById("cat");
                 var grassWidth = window.innerHeight*0.05;
@@ -80,20 +81,21 @@
                     }
             }
                 setInterval(() => {
-                    if(x+140>=window.innerWidth)
+                    if(x<target)
                     {
-                        walkingDirection = -2;
+                        walkingDirection = 1;
                     }
-                    if(x<=0)
+                    if(x>target)
                     {
-                        walkingDirection = 2;
+                        walkingDirection = -1;
                     }
                     if(Math.random()*100>99&& isWalking==false)
                     {
                         target = (window.innerWidth-140)*Math.random();
+                        speed = Math.round(Math.random()*4)+2;
                         isWalking = true;
                     }
-                    if(Math.abs(x-target)<=2)
+                    if(Math.abs(x-target)<=Math.abs(speed))
                     {
                         isWalking=false;
                     }
@@ -101,7 +103,7 @@
                     {
                         catdiv.classList.add('cat-run');
                         catdiv.classList.remove('cat-sitting');
-                        x+=walkingDirection;
+                        x+=walkingDirection*speed;
                     }else{
                         catdiv.classList.remove('cat-run');
                         catdiv.classList.add('cat-sitting');
